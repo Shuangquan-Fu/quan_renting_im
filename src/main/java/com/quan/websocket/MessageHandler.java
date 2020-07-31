@@ -41,13 +41,12 @@ public class MessageHandler extends TextWebSocketHandler {
                 .msg(msg)
                 .build();
         message = this.messageDao.saveMessage(message);
-// 判断to用户是否在线
+        // 判断to用户是否在线
         WebSocketSession toSession = SESSIONS.get(toId);
         if(toSession != null && toSession.isOpen()){
-//TODO 具体格式需要和前端对接
-            toSession.sendMessage(new
-                    TextMessage(MAPPER.writeValueAsString(message)));
-// 更新消息状态为已读
+        //TODO 具体格式需要和前端对接
+            toSession.sendMessage(new TextMessage(MAPPER.writeValueAsString(message)));
+        // 更新消息状态为已读
             this.messageDao.updateMessageState(message.getId(), 2);
         }
     }
